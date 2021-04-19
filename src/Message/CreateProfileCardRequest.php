@@ -9,17 +9,24 @@ class CreateProfileCardRequest extends AbstractProfileRequest
 
     public function getData()
     {
-        $data = array();
-        $this->getCard()->validate();
+        $data = array(
+            'comment' => $this->getComment()
+        );
 
         if ($this->getCard()) {
-            $data = array(
+            $this->getCard()->validate();
+
+            $data['card'] = array(
                 'number' => $this->getCard()->getNumber(),
                 'name' => $this->getCard()->getName(),
                 'expiry_month' => $this->getCard()->getExpiryDate('m'),
                 'expiry_year' => $this->getCard()->getExpiryDate('y'),
                 'cvd' => $this->getCard()->getCvv(),
             );
+        }
+
+        if ($this->getToken()) {
+            $data['token'] = $this->getToken();
         }
 
         return $data;

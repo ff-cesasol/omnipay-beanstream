@@ -45,16 +45,35 @@ class CreateProfileCardRequestTest extends TestCase
         $this->assertSame('https://www.beanstream.com/api/v1/profiles/' . $this->request->getProfileId(). '/cards', $this->request->getEndpoint());
     }
 
+    public function testComment()
+    {
+        $this->assertSame($this->request, $this->request->setComment('test'));
+        $this->assertSame('test', $this->request->getComment());
+    }
+
     public function testCard()
     {
         $card = $this->getValidCard();
         $this->assertSame($this->request, $this->request->setCard($card));
         $data = $this->request->getData();
-        $this->assertSame($card['number'], $data['number']);
-        $this->assertSame($card['cvv'], $data['cvd']);
-        $this->assertSame(sprintf("%02d", $card['expiryMonth']), $data['expiry_month']);
-        $this->assertSame(substr($card['expiryYear'], -2), $data['expiry_year']);
-        $this->assertSame($card['firstName'] . ' ' . $card['lastName'], $data['name']);
+        $this->assertSame($card['number'], $data['card']['number']);
+        $this->assertSame($card['cvv'], $data['card']['cvd']);
+        $this->assertSame(sprintf("%02d", $card['expiryMonth']), $data['card']['expiry_month']);
+        $this->assertSame(substr($card['expiryYear'], -2), $data['card']['expiry_year']);
+        $this->assertSame($card['firstName'] . ' ' . $card['lastName'], $data['card']['name']);
+    }
+
+    public function testToken()
+    {
+        $token = array(
+            'name' => 'token-test-name',
+            'code' => 'token-test-code'
+        );
+
+        $this->assertSame($this->request, $this->request->setToken($token));
+        $this->assertSame($token, $this->request->getToken());
+        $data = $this->request->getData();
+        $this->assertSame($token, $data['token']);
     }
 
     public function testHttpMethod()
