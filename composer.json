@@ -23,12 +23,11 @@
         "psr-4": { "Omnipay\\Beanstream\\" : "src/" }
     },
     "require": {
-        "php": "^5.6|^7",
-        "omnipay/common": "^3",
-        "php-http/guzzle6-adapter": "^1.1"
+        "php": "^7|^8",
+        "omnipay/common": "^3"
     },
     "require-dev": {
-        "omnipay/tests": "^3.1"
+        "omnipay/tests": "^3"
     },
     "extra": {
         "branch-alias": {
